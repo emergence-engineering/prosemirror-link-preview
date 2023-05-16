@@ -7,7 +7,7 @@ import { exampleSetup } from "prosemirror-example-setup";
 import { useEffect, useMemo, useState } from "react";
 import applyDevTools from "prosemirror-dev-tools";
 import { ySyncPlugin, yCursorPlugin, yUndoPlugin } from "y-prosemirror";
-import { addPreviewNode, previewPlugin } from "prosemirror-link-preview";
+import { addPreviewNode, previewPlugin } from "../plugin/src";
 import "prosemirror-link-preview/dist/styles/styles.css";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 const mySchema = new Schema({
@@ -39,21 +39,21 @@ export default function Home() {
   const [view, setView] = useState<EditorView | null>(null);
   const ydoc = new Y.Doc();
 
-  const provider = useMemo(() => {
-    return new HocuspocusProvider({
-      url: "ws://127.0.0.1:8080",
-      name: "default",
-      document: ydoc,
-      token: "prosemirror-link-preview",
-    });
-  }, [ydoc]);
+  // const provider = useMemo(() => {
+  //   return new HocuspocusProvider({
+  //     url: "ws://127.0.0.1:8080",
+  //     name: "default",
+  //     document: ydoc,
+  //     token: "prosemirror-link-preview",
+  //   });
+  // }, [ydoc]);
 
-  useEffect(() => {
-    provider.connect();
-    return () => {
-      provider.disconnect();
-    };
-  }, [provider]);
+  // useEffect(() => {
+  //   provider.connect();
+  //   return () => {
+  //     provider.disconnect();
+  //   };
+  // }, [provider]);
 
   useEffect(() => {
     const yXmlFragment = ydoc.getXmlFragment("prosemirror");
@@ -67,7 +67,7 @@ export default function Home() {
         plugins: [
           ...exampleSetup({ schema: mySchema }),
           ySyncPlugin(yXmlFragment),
-          yCursorPlugin(provider.awareness),
+          // yCursorPlugin(provider.awareness),
           yUndoPlugin(),
           previewPlugin(mySchema, async (link: string) => {
             const data = await fetch("/api/link-preview", {
