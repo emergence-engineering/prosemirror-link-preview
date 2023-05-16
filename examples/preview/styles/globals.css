@@ -79,3 +79,44 @@ placeholder:after {
 #y-functions > * {
   display: inline-block;
 }
+
+.preview-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+}
+
+.preview-root {
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+  justify-content: center;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  overflow: hidden;
+}
+
+.preview-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  padding: 0.5rem;
+}
+
+.preview-description {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+}
+
+.placeholder {
+  width: 1rem;
+  height: 1rem;
+  background: darkgray;
+}
