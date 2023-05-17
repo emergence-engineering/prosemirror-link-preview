@@ -71,13 +71,9 @@ export const previewPlugin = (
               const previewNode = schema.nodes.preview.create(attrs);
 
               let pos = findPlaceholder(view.state, id);
-              // If the content around the placeholder has been deleted, drop
-              // the image
               if (!pos) {
                 return;
               }
-              // Otherwise, insert it at the placeholder's position, and remove
-              // the placeholder
               view.dispatch(
                 view.state.tr
                   .replaceWith(pos, pos, previewNode)

@@ -86,18 +86,27 @@ export const apply = (
   newState: EditorState
 ) => {
   const action = tr.getMeta(previewPluginKey);
+
+  const mappedValue = value.map((i) => {
+    const pos = tr.mapping.map(i.pos);
+    return {
+      ...i,
+      pos,
+    };
+  });
+
   if (action && action.type === "add") {
     return [
-      ...value,
+      ...mappedValue,
       {
         id: action.id as object,
         pos: action.pos,
       },
     ];
   } else if (action && action.type === "remove") {
-    return value.filter((i) => i.id !== action.id);
+    return mappedValue.filter((i) => i.id !== action.id);
   }
-  return value;
+  return mappedValue;
 };
 
 export const findPlaceholderYjs = (state: EditorState, id: any) => {

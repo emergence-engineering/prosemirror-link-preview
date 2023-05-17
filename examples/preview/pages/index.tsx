@@ -10,9 +10,9 @@ import { ySyncPlugin, yCursorPlugin, yUndoPlugin } from "y-prosemirror";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import {
   addPreviewNode,
-  applyYjs,
-  createDecorationsYjs,
-  findPlaceholderYjs,
+  apply,
+  createDecorations,
+  findPlaceholder,
   previewPlugin,
 } from "prosemirror-link-preview";
 
@@ -69,9 +69,9 @@ export default function Home() {
               } = await data.json();
               return { url, title, description, images };
             },
-            applyYjs,
-            createDecorationsYjs,
-            findPlaceholderYjs
+            apply,
+            createDecorations,
+            findPlaceholder
           ),
         ],
       }),
