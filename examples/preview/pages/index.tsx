@@ -11,8 +11,11 @@ import { HocuspocusProvider } from "@hocuspocus/provider";
 import {
   addPreviewNode,
   apply,
+  applyYjs,
   createDecorations,
+  createDecorationsYjs,
   findPlaceholder,
+  findPlaceholderYjs,
   previewPlugin,
 } from "prosemirror-link-preview";
 
@@ -69,9 +72,9 @@ export default function Home() {
               } = await data.json();
               return { url, title, description, images };
             },
-            apply,
-            createDecorations,
-            findPlaceholder
+            applyYjs,
+            createDecorationsYjs,
+            findPlaceholderYjs
           ),
         ],
       }),

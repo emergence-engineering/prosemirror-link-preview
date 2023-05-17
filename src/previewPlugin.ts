@@ -38,26 +38,24 @@ export const previewPlugin = (
       },
       transformPasted: (slice: Slice, view: EditorView) => {
         let id = {};
-
-        // Replace the selection with a placeholder
         let tr = view.state.tr;
-        if (!tr.selection.empty) {
-          tr.deleteSelection();
-        }
-        tr.setMeta(previewPluginKey, {
-          id,
-          pos: tr.selection.from,
-          type: "add",
-        });
-        view.dispatch(tr);
-
         const textContent = slice.content.firstChild?.textContent;
         let origin = null;
         try {
           origin = new URL(textContent || "").origin;
+          if (!tr.selection.empty) {
+            tr.deleteSelection();
+          }
+          tr.setMeta(previewPluginKey, {
+            id,
+            pos: tr.selection.from,
+            type: "add",
+          });
+          view.dispatch(tr);
         } catch (e) {
           return slice;
         }
+
         if (textContent && origin) {
           callback(textContent).then(
             (data) => {
