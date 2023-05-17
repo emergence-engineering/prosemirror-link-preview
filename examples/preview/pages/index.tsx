@@ -7,17 +7,14 @@ import { exampleSetup } from "prosemirror-example-setup";
 import { useEffect, useMemo, useState } from "react";
 import applyDevTools from "prosemirror-dev-tools";
 import { ySyncPlugin, yCursorPlugin, yUndoPlugin } from "y-prosemirror";
+import { HocuspocusProvider } from "@hocuspocus/provider";
 import {
   addPreviewNode,
-  apply,
   applyYjs,
-  createDecorations,
   createDecorationsYjs,
-  findPlaceholder,
   findPlaceholderYjs,
   previewPlugin,
-} from "../plugin/src";
-import { HocuspocusProvider } from "@hocuspocus/provider";
+} from "prosemirror-link-preview";
 
 const mySchema = new Schema({
   nodes: addPreviewNode(schema.spec.nodes),

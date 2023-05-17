@@ -19,6 +19,7 @@
     "next": "13.4.2",
     "prosemirror-dev-tools": "^4.0.0",
     "prosemirror-example-setup": "^1.2.1",
+    "prosemirror-link-preview": "file:../../prosemirror-link-preview-1.0.0.tgz",
     "prosemirror-model": "^1.19.0",
     "prosemirror-schema-basic": "^1.2.1",
     "prosemirror-state": "^1.4.2",

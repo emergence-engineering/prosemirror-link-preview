@@ -83,6 +83,7 @@ logs
 **/*.back.*
 
 node_modules
+dist
 bower_components
 
 *.sublime*
@@ -90,3 +91,5 @@ bower_components
 psd
 thumb
 sketch
+
+*.tgz
