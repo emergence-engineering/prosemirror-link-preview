@@ -17,7 +17,7 @@ import {
   findPlaceholder,
   findPlaceholderYjs,
   previewPlugin,
-} from "../src";
+} from "prosemirror-link-preview";
 
 const mySchema = new Schema({
   nodes: addPreviewNode(schema.spec.nodes),

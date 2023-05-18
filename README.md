@@ -25,6 +25,7 @@ The ProseMirror-Link-Preview plugin offers several key features that enhance the
      applyYjs, // for yjs users
      createDecorationsYjs, // for yjs users
      findPlaceholderYjs, // for yjs users
+     IDefaultoptions,
    } from "prosemirror-link-preview";
    ```
 3. Import the CSS file for your setup. You can use your custom css to style the preview, here is an example(which is the actual css used by default)
@@ -63,7 +64,6 @@ const mySchema = new Schema({
          ySyncPlugin(yXmlFragment),
          yUndoPlugin(),
          previewPlugin(
-           mySchema,
            async (link: string) => {
              const data = await fetch("/api/link-preview", {
                method: "POST",
@@ -79,6 +79,7 @@ const mySchema = new Schema({
            applyYjs,
            createDecorationsYjs,
            findPlaceholderYjs
+           {openLinkOnClick: true} as IDefaultoptions
          ),
        ],
      }),
