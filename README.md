@@ -33,46 +33,14 @@ The ProseMirror-Link-Preview plugin offers several key features that enhance the
 import "prosemirror-link-preview/dist/styles/styles.css";
 ```
 
-```css
-.preview-img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  object-position: center;
-}
-.preview-root {
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  width: 100%;
-  max-width: 20rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: flex-start;
-  justify-content: center;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  overflow: hidden;
-}
+- basic card structure
 
-.preview-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #333;
-  padding: 0.5rem;
-}
-
-.preview-description {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  padding: 0.5rem 0.5rem 1rem 0.5rem;
-}
-
-.placeholder {
-  width: 1rem;
-  height: 1rem;
-  background: darkgray;
-}
+```
+<div className="preview-root">
+  <div className="preview-image" />
+  <div className="preview-title" />
+  <div className="preview-description" />
+</div>
 ```
 
 4. Update the image node in the ProseMirror schema to have all the necessary properties with `addPreviewNode`
@@ -119,7 +87,6 @@ const mySchema = new Schema({
 
 6. `previewPlugin` requires 5 parameters:
 
-- `schema`: the ProseMirror schema updated with `addPreviewNode`
 - `fetchLinkPreview`: a function that takes a link and returns a `Promise` that resolves to the link preview data, you can easily do this using next.js API routes
   or just using `link-preview-js` library on your custom backend
 
@@ -168,3 +135,10 @@ export default async function handler(
 - `apply`: import from `prosemirror-link-preview`
 - `createDecorations`: import from `prosemirror-link-preview`
 - `findPlaceholder`: import from `prosemirror-link-preview`
+- `defaultOptions`:
+
+```typescript
+export interface IDefaultOptions {
+  openLinkOnClick: boolean; // if true, onClick opens the original link in a new browser tab
+}
+```

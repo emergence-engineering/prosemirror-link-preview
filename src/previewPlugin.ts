@@ -1,19 +1,11 @@
-import { EditorState, Plugin, PluginKey, Transaction } from "prosemirror-state";
-import { Fragment, Slice, Schema } from "prosemirror-model";
+import { EditorState, Plugin, Transaction } from "prosemirror-state";
+import { Fragment, Slice } from "prosemirror-model";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import { previewNodeView } from "./previewNodeView";
-
-export type PreviewPluginState = {
-  pos: number;
-  id: object;
-}[];
-
-export const previewPluginKey = new PluginKey<PreviewPluginState>(
-  "previewPlugin"
-);
+import { defaultOptions } from "./utils";
+import { previewPluginKey, PreviewPluginState } from "./types";
 
 export const previewPlugin = (
-  schema: Schema,
   callback: (url: string) => Promise<any>,
   apply: (
     tr: Transaction,
@@ -22,7 +14,8 @@ export const previewPlugin = (
     newState: EditorState
   ) => PreviewPluginState,
   createDecorations: (state: EditorState) => DecorationSet,
-  findPlaceholder: (state: EditorState, id: object) => number | null
+  findPlaceholder: (state: EditorState, id: object) => number | null,
+  options = defaultOptions
 ) =>
   new Plugin<PreviewPluginState>({
     key: previewPluginKey,
@@ -61,7 +54,7 @@ export const previewPlugin = (
             (data) => {
               const { title, description, images } = data;
               if (!images?.[0]) {
-                const node = schema.text(textContent);
+                const node = view.state.schema.text(textContent);
                 view.dispatch(view.state.tr.replaceSelectionWith(node));
                 return;
               }
@@ -72,7 +65,7 @@ export const previewPlugin = (
                 alt: title,
                 url: textContent,
               };
-              const previewNode = schema.nodes.preview.create(attrs);
+              const previewNode = view.state.schema.nodes.preview.create(attrs);
 
               const pos = findPlaceholder(view.state, id);
               if (!pos) {
@@ -99,7 +92,9 @@ export const previewPlugin = (
         return slice;
       },
       nodeViews: {
-        preview: previewNodeView,
+        preview: (node, view, getPos) => {
+          return previewNodeView(node, view, getPos, options);
+        },
       },
     },
   });

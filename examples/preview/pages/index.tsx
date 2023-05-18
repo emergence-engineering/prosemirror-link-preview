@@ -17,7 +17,7 @@ import {
   findPlaceholder,
   findPlaceholderYjs,
   previewPlugin,
-} from "prosemirror-link-preview";
+} from "../src";
 
 const mySchema = new Schema({
   nodes: addPreviewNode(schema.spec.nodes),
@@ -59,7 +59,6 @@ export default function Home() {
           // yCursorPlugin(provider.awareness),
           yUndoPlugin(),
           previewPlugin(
-            mySchema,
             async (link: string) => {
               const data = await fetch("/api/link-preview", {
                 method: "POST",
@@ -74,7 +73,8 @@ export default function Home() {
             },
             applyYjs,
             createDecorationsYjs,
-            findPlaceholderYjs
+            findPlaceholderYjs,
+            { openLinkOnClick: false }
           ),
         ],
       }),

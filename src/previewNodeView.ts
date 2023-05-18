@@ -1,10 +1,12 @@
 import { EditorView } from "prosemirror-view";
 import { Node } from "prosemirror-model";
+import { IDefaultOptions } from "./types";
 
 export const previewNodeView = (
   node: Node,
   view: EditorView,
-  getPos: () => number | undefined
+  getPos: () => number | undefined,
+  options: IDefaultOptions
 ) => {
   const container = document.createElement("div");
   container.className = "preview-root";
@@ -24,6 +26,13 @@ export const previewNodeView = (
   container.appendChild(img);
   container.appendChild(title);
   container.appendChild(description);
+  container.addEventListener("click", () => {
+    if (options.openLinkOnClick) {
+      window.open(node.attrs.url, "_blank");
+    }
+  });
+  container.style.cursor = options.openLinkOnClick ? "pointer" : "default";
+  img.style.cursor = options.openLinkOnClick ? "pointer" : "default";
 
   const dom = container;
 

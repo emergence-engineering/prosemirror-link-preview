@@ -12,6 +12,7 @@ export const addPreviewNode = (
       alt: { default: null },
       title: { default: null },
       description: { default: null },
+      url: { default: null },
     },
     parseDOM: [
       {

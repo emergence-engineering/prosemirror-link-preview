@@ -8,4 +8,6 @@ export {
   apply,
   findPlaceholder,
   findPlaceholderYjs,
+  defaultOptions,
 } from "./utils";
+export { IDefaultOptions } from "./types";

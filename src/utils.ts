@@ -5,7 +5,11 @@ import {
   relativePositionToAbsolutePosition,
   ySyncPluginKey,
 } from "y-prosemirror";
-import { previewPluginKey, PreviewPluginState } from "./previewPlugin";
+import { previewPluginKey, PreviewPluginState, IDefaultOptions } from "./types";
+
+export const defaultOptions: IDefaultOptions = {
+  openLinkOnClick: true,
+};
 
 export const createDecorationsYjs = (state: EditorState) => {
   const updatedState = previewPluginKey.getState(state);
