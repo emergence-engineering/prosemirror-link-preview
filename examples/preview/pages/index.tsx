@@ -1,12 +1,12 @@
 import * as Y from "yjs";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { Schema, DOMParser, Node, Slice, Fragment } from "prosemirror-model";
+import { Schema, DOMParser } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { exampleSetup } from "prosemirror-example-setup";
 import { useEffect, useMemo, useState } from "react";
 import applyDevTools from "prosemirror-dev-tools";
-import { ySyncPlugin, yCursorPlugin, yUndoPlugin } from "y-prosemirror";
+import { ySyncPlugin, yUndoPlugin } from "y-prosemirror";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import {
   addPreviewNode,

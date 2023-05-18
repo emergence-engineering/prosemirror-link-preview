@@ -60,10 +60,17 @@ export const previewPlugin = (
           callback(textContent).then(
             (data) => {
               const { title, description, images } = data;
+              if (!images?.[0]) {
+                //create a node with the textContent and dispatch a replace transaction
+                const node = schema.text(textContent);
+                view.dispatch(view.state.tr.replaceSelectionWith(node));
+                return;
+              }
               const attrs = {
                 title,
                 description,
                 src: images[0],
+                alt: title,
                 url: textContent,
               };
               const previewNode = schema.nodes.preview.create(attrs);
