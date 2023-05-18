@@ -15,7 +15,7 @@ export const addPreviewNode = (
     },
     parseDOM: [
       {
-        tag: "div",
+        tag: "div.preview-root",
         getAttrs(dom) {
           if (!(dom instanceof HTMLElement)) {
             return {};
