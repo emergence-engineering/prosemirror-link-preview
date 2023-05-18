@@ -5,7 +5,7 @@ import { previewNodeView } from "./previewNodeView";
 
 export type PreviewPluginState = {
   pos: number;
-  id: {};
+  id: object;
 }[];
 
 export const previewPluginKey = new PluginKey<PreviewPluginState>(
@@ -37,8 +37,8 @@ export const previewPlugin = (
         return createDecorations(state);
       },
       transformPasted: (slice: Slice, view: EditorView) => {
-        let id = {};
-        let tr = view.state.tr;
+        const id = {};
+        const { tr } = view.state;
         const textContent = slice.content.firstChild?.textContent;
         let origin = null;
         try {
@@ -61,7 +61,6 @@ export const previewPlugin = (
             (data) => {
               const { title, description, images } = data;
               if (!images?.[0]) {
-                //create a node with the textContent and dispatch a replace transaction
                 const node = schema.text(textContent);
                 view.dispatch(view.state.tr.replaceSelectionWith(node));
                 return;
@@ -75,7 +74,7 @@ export const previewPlugin = (
               };
               const previewNode = schema.nodes.preview.create(attrs);
 
-              let pos = findPlaceholder(view.state, id);
+              const pos = findPlaceholder(view.state, id);
               if (!pos) {
                 return;
               }

@@ -73,9 +73,12 @@ export const applyYjs = (
         pos: relPos,
       },
     ];
-  } else if (action && action.type === "remove") {
+  }
+
+  if (action && action.type === "remove") {
     return value.filter((i) => i.id !== action.id);
   }
+
   return value;
 };
 
@@ -103,9 +106,12 @@ export const apply = (
         pos: action.pos,
       },
     ];
-  } else if (action && action.type === "remove") {
+  }
+
+  if (action && action.type === "remove") {
     return mappedValue.filter((i) => i.id !== action.id);
   }
+
   return mappedValue;
 };
 
@@ -115,7 +121,7 @@ export const findPlaceholderYjs = (state: EditorState, id: any) => {
     return null;
   }
   const ystate = ySyncPluginKey.getState(state);
-  const found = decos.find((spec) => spec.id == id);
+  const found = decos.find((spec) => spec.id === id);
   if (!found?.pos) {
     return null;
   }
@@ -133,8 +139,7 @@ export const findPlaceholder = (state: EditorState, id: any) => {
   if (!decos) {
     return null;
   }
-  console.log("decos", { decos });
-  const found = decos.find((spec) => spec.id == id);
+  const found = decos.find((spec) => spec.id === id);
 
   return found?.pos || null;
 };

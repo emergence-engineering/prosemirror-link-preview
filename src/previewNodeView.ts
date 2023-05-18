@@ -30,9 +30,6 @@ export const previewNodeView = (
   return {
     dom,
     update: (node: Node) => {
-      if (node.type !== node.type) {
-        return false;
-      }
       const img = dom.querySelector("img");
       const title = dom.querySelector(".preview-title");
       const description = dom.querySelector(".preview-description");

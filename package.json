@@ -1,6 +1,6 @@
 {
   "name": "prosemirror-link-preview",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "prosemirror-link-preview adds link preview node to your editor",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -45,6 +45,16 @@
     "yjs": "^13.6.1"
   },
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "eslint": "^8.29.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.1.6",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
     "prosemirror-model": "^1.11.0",
     "prosemirror-view": "^1.15.5"
   },
