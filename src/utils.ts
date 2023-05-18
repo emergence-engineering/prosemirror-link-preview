@@ -82,12 +82,7 @@ export const applyYjs = (
   return value;
 };
 
-export const apply = (
-  tr: Transaction,
-  value: PreviewPluginState,
-  oldState: EditorState,
-  newState: EditorState
-) => {
+export const apply = (tr: Transaction, value: PreviewPluginState) => {
   const action = tr.getMeta(previewPluginKey);
 
   const mappedValue = value.map((i) => {

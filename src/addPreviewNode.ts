@@ -1,4 +1,4 @@
-import { Node, Schema } from "prosemirror-model";
+import { Schema } from "prosemirror-model";
 
 export const addPreviewNode = (
   nodes: Schema["spec"]["nodes"]
