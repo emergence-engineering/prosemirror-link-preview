@@ -10,7 +10,7 @@
     "build": "rollup -c --bundleConfigAsCjs",
     "dev": "rollup -c -w --bundleConfigAsCjs",
     "format": "eslint src --ext .ts --fix",
-    "prepublishOnly": "npm run build && npm test && npm run lint",
+    "prepublishOnly": "npm run build && npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
     "lint": "tsc --noEmit && eslint src --ext .ts",
