@@ -1,7 +1,7 @@
 {
   "name": "prosemirror-link-preview",
   "version": "1.0.0",
-  "description": "",
+  "description": "Opening up new possibilities for ProseMirror users, the proseMirror-link-preview plugin brings the convenience of link previews to your editing environment. Inspired by popular messaging platforms like Discord and Slack, this plugin dynamically renders link previews as you paste valid URLs into your ProseMirror documents. In this article, we will explore the features, installation process, and benefits of this open source plugin.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://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@github.com/emergence-engineering/prosemirror-link-preview.git"
+    "url": "git+https://github.com/emergence-engineering/prosemirror-link-preview.git"
   },
   "files": [
     "dist/**/*"
