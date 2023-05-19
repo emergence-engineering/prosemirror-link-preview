@@ -7,6 +7,8 @@
 
 ## Features
 
+![feature-gif](https://emergence-engineering.com/link-preview.gif)
+
 The ProseMirror-Link-Preview plugin offers several key features that enhance the user experience while editing:
 
 1. **Dynamic Link Previews**: Whenever a valid URL is pasted into a ProseMirror document, the plugin automatically calls **your callback** function, which is one of the plugin's parameter, which fetches the necessary metadata, and the plugin renders a preview, providing a quick glimpse into the content behind the link.
