@@ -1,5 +1,7 @@
 # prosemirror-link-preview
 
+[![made by Emergence Engineering](https://emergence-engineering.com/ee-logo.svg) **Made by Emergence-Engineering**](https://emergence-engineering.com/)
+
 ## Features
 
 The ProseMirror-Link-Preview plugin offers several key features that enhance the user experience while editing:
