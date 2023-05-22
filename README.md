@@ -50,7 +50,7 @@ The ProseMirror-Link-Preview plugin offers several key features that enhance the
        </div>
        ```
 
-4. Update the image node in the ProseMirror schema to have all the necessary properties with `addPreviewNode`
+4. Update nodes in the ProseMirror schema to have all the necessary properties with `addPreviewNode`
 
     ```typescript
     const mySchema = new Schema({
@@ -94,7 +94,7 @@ The ProseMirror-Link-Preview plugin offers several key features that enhance the
 
 6. `previewPlugin` requires 5 parameters:
 
-   - `fetchLinkPreview`: a function that takes a link and returns a `Promise` that resolves to the link preview data, you can easily do this using next.js API routes
+   - `fetchLinkPreview`: `(link: string) => Promise<{url: string, title: string, description: string, images: string[]}>` a function that takes a link and returns a `Promise` that resolves to the link preview data, you can easily do this using next.js API routes
      or just using `link-preview-js` library on your custom backend
 
        ```typescript
@@ -148,3 +148,12 @@ The ProseMirror-Link-Preview plugin offers several key features that enhance the
          openLinkOnClick: boolean; // if true, onClick opens the original link in a new browser tab
        }
        ```
+
+## Fetching preview data
+
+**this does not happen automatically**, you need to handle it yourself by providing the `fetchLinkPreview` callback function
+
+- this usually requires a backend using a 3rd party library like `link-preview-js`
+- you can use `linkpreview.net` API endpoint to fetch your preview data from the frontend
+- in case you are using nextjs, you can easily use our example above
+- or any other tool you see fit
