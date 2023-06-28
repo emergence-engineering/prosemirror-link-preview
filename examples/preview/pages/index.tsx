@@ -23,10 +23,6 @@ import {
   findPlaceholderYjs,
   previewPlugin,
 } from "prosemirror-link-preview";
-import {
-  defaultOptions,
-  grammarSuggestPlugin,
-} from "prosemirror-suggestcat-plugin";
 
 const mySchema = new Schema({
   nodes: addPreviewNode(schema.spec.nodes),
@@ -35,29 +31,26 @@ const mySchema = new Schema({
 
 const plugKey = new PluginKey("plugKey");
 const plug = () => {
-  return new Plugin({
+  return new Plugin<{ deco: { from: any; to: any }[] }>({
     key: plugKey,
     state: {
       init() {
         return {
-          decorations: [],
+          deco: [],
         };
       },
       apply(tr, pluginState, oldState, newState) {
         const YState = ySyncPluginKey.getState(newState);
         console.log({ YState, size: oldState.doc.content.size });
-        if (
-          pluginState.decorations.length === 0 &&
-          oldState.doc.content.size > 30
-        ) {
+        if (pluginState.deco.length === 0 && oldState.doc.content.size > 10) {
           const from = absolutePositionToRelativePosition(
-            tr.mapping.map(10),
+            5,
             YState.type,
             YState.binding.mapping
           );
 
           const to = absolutePositionToRelativePosition(
-            tr.mapping.map(15),
+            8,
             YState.type,
             YState.binding.mapping
           );
@@ -65,23 +58,19 @@ const plug = () => {
           console.log({ from, to });
 
           return {
-            decorations: [{ from, to }],
+            deco: [{ from, to }],
           };
         }
-        return {
-          decorations: pluginState.decorations,
-        };
+        return pluginState;
       },
     },
     props: {
       decorations: (state) => {
         const pluginState = plugKey.getState(state);
-        console.log({ pluginState });
         if (!pluginState) return null;
         const YState = ySyncPluginKey.getState(state);
-        const deco = pluginState.decorations
+        const deco = pluginState.deco
           .map((deco: { from: any; to: any }) => {
-            console.log("this", deco.from, deco.to);
             const from = relativePositionToAbsolutePosition(
               YState.doc,
               YState.type,
@@ -94,6 +83,7 @@ const plug = () => {
               deco.to,
               YState.binding.mapping
             );
+            console.log(YState.doc.toJSON());
             return !from || !to
               ? undefined
               : Decoration.inline(from, to, { class: "plug" });
@@ -105,10 +95,74 @@ const plug = () => {
     },
   });
 };
+const plug2Key = new PluginKey("plug2Key");
+
+const plug2 = (fragment: Y.XmlFragment) => {
+  let init = false;
+  return new Plugin({
+    key: plug2Key,
+    state: {
+      init() {
+        return {};
+      },
+      apply(tr, pluginState) {
+        console.log("apply plug2");
+        const plug2Meta = tr.getMeta(plug2Key);
+        return plug2Meta || pluginState;
+      },
+    },
+    view: (view) => ({
+      update: (view, prevState) => {
+        if (!init) {
+          init = true;
+          fragment.observeDeep((events) => {
+            if (
+              // Valami jobb ide pls, mittomen doc!== doc
+              JSON.stringify(view.state.doc.toJSON()) !==
+              JSON.stringify(prevState.doc.toJSON())
+            ) {
+              view.dispatch(view.state.tr.setMeta(plug2Key, {}));
+            }
+          });
+        }
+      },
+    }),
+    // props: {
+    //   decorations: (state) => {
+    //     const pluginState = plugKey.getState(state);
+    //     if (!pluginState) return null;
+    //     const YState = ySyncPluginKey.getState(state);
+    //     const deco = pluginState.deco
+    //       .map((deco: { from: any; to: any }) => {
+    //         const from = relativePositionToAbsolutePosition(
+    //           YState.doc,
+    //           YState.type,
+    //           deco.from,
+    //           YState.binding.mapping
+    //         );
+    //         const to = relativePositionToAbsolutePosition(
+    //           YState.doc,
+    //           YState.type,
+    //           deco.to,
+    //           YState.binding.mapping
+    //         );
+    //         console.log(YState.doc.toJSON());
+    //         return !from || !to
+    //           ? undefined
+    //           : Decoration.inline(from, to, { class: "plug" });
+    //       })
+    //       .filter(Boolean) as Decoration[];
+    //     console.log({ deco });
+    //     return DecorationSet.create(state.doc, deco);
+    //   },
+    // },
+  });
+};
+
+const ydoc = new Y.Doc();
 
 export default function Home() {
   const [view, setView] = useState<EditorView | null>(null);
-  const ydoc = new Y.Doc();
 
   const provider = useMemo(() => {
     return new HocuspocusProvider({
@@ -117,7 +171,7 @@ export default function Home() {
       document: ydoc,
       token: "prosemirror-link-preview",
     });
-  }, [ydoc]);
+  }, []);
 
   useEffect(() => {
     provider.connect();
@@ -128,6 +182,9 @@ export default function Home() {
 
   useEffect(() => {
     const yXmlFragment = ydoc.getXmlFragment("prosemirror");
+    yXmlFragment.observeDeep((event) => {
+      console.log("ychanges", event);
+    });
 
     const v = new EditorView(document.querySelector("#editor") as HTMLElement, {
       state: EditorState.create({
@@ -136,29 +193,12 @@ export default function Home() {
           document.createElement("div")
         ),
         plugins: [
-          ...exampleSetup({ schema: mySchema }),
           ySyncPlugin(yXmlFragment),
+          ...exampleSetup({ schema: mySchema }),
           // yCursorPlugin(provider.awareness),
           yUndoPlugin(),
-          previewPlugin(
-            async (link: string) => {
-              const data = await fetch("/api/link-preview", {
-                method: "POST",
-                body: JSON.stringify({
-                  link,
-                }),
-              });
-              const {
-                data: { url, title, description, images },
-              } = await data.json();
-              return { url, title, description, images };
-            },
-            applyYjs,
-            createDecorationsYjs,
-            findPlaceholderYjs,
-            { openLinkOnClick: false }
-          ),
           plug(),
+          plug2(yXmlFragment),
           /* grammarSuggestPlugin("-qKivjCv6MfQSmgF438PjEY7RnLfqoVe", {
            *   ...defaultOptions,
            *   withYjs: true,
