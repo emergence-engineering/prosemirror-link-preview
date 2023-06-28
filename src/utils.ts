@@ -37,25 +37,6 @@ export const createDecorationsYjs = (state: EditorState) => {
   );
 };
 
-export const createDecorations = (state: EditorState) => {
-  const updatedState = previewPluginKey.getState(state);
-  if (!updatedState) return DecorationSet.empty;
-  const decors = updatedState.map((i) => {
-    const widget = document.createElement("placeholder");
-    const deco =
-      typeof i.pos === "number"
-        ? Decoration.widget(i.pos, widget, {
-            id: i.id,
-          })
-        : undefined;
-    return deco;
-  });
-  return (
-    DecorationSet.create(state.doc, decors.filter((i) => i) as Decoration[]) ||
-    DecorationSet.empty
-  );
-};
-
 export const applyYjs = (
   tr: Transaction,
   value: PreviewPluginState,
@@ -84,6 +65,25 @@ export const applyYjs = (
   }
 
   return value;
+};
+
+export const createDecorations = (state: EditorState) => {
+  const updatedState = previewPluginKey.getState(state);
+  if (!updatedState) return DecorationSet.empty;
+  const decors = updatedState.map((i) => {
+    const widget = document.createElement("placeholder");
+    const deco =
+      typeof i.pos === "number"
+        ? Decoration.widget(i.pos, widget, {
+            id: i.id,
+          })
+        : undefined;
+    return deco;
+  });
+  return (
+    DecorationSet.create(state.doc, decors.filter((i) => i) as Decoration[]) ||
+    DecorationSet.empty
+  );
 };
 
 export const apply = (tr: Transaction, value: PreviewPluginState) => {

@@ -120,3 +120,7 @@ placeholder:after {
   height: 1rem;
   background: darkgray;
 }
+
+.plug {
+  background: darkcyan;
+}
