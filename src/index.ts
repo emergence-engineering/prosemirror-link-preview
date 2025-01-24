@@ -10,4 +10,4 @@ export {
   findPlaceholderYjs,
   defaultOptions,
 } from "./utils";
-export { IDefaultOptions } from "./types";
+export { IDefaultOptions, previewPluginKey } from "./types";
