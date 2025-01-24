@@ -6,7 +6,6 @@ import copy from "rollup-plugin-copy";
 import pkg from "./package.json";
 
 export default {
-  name: "prosemirror-link-preview",
   input: "src/index.ts",
   output: [
     {
@@ -24,5 +23,4 @@ export default {
     typescript(),
     terser(),
   ],
-  sourcemap: true,
 };
