@@ -1,6 +1,6 @@
 {
   "name": "prosemirror-link-preview",
-  "version": "2.0.15",
+  "version": "2.1.0",
   "description": "prosemirror-link-preview adds link preview node to your editor",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
