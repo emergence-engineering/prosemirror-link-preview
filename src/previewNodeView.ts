@@ -23,9 +23,15 @@ export const previewNodeView = (
   description.classList.add("preview-description");
   description.textContent = node.attrs.description;
 
+  const url = document.createElement("a");
+  url.href = node.attrs.url;
+  url.textContent = node.attrs.url;
+  url.classList.add("preview-url");
+
   container.appendChild(img);
   container.appendChild(title);
   container.appendChild(description);
+  container.appendChild(url);
   container.addEventListener("click", () => {
     if (options.openLinkOnClick) {
       window.open(node.attrs.url, "_blank");

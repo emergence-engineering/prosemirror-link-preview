@@ -39,3 +39,7 @@
   height: 1rem;
   background: darkgray;
 }
+
+.preview-url {
+  display: none;
+}
