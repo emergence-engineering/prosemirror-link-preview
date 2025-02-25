@@ -2,6 +2,7 @@ import { PluginKey } from "prosemirror-state";
 
 export interface IDefaultOptions {
   openLinkOnClick: boolean;
+  pasteLink?: boolean;
 }
 
 export type PreviewPluginState = {

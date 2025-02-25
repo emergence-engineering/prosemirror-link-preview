@@ -11,3 +11,4 @@ export {
   defaultOptions,
 } from "./utils";
 export { IDefaultOptions, previewPluginKey } from "./types";
+export { insertPreview } from "./insertPreview";

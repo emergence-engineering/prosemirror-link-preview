@@ -30,6 +30,9 @@ export const previewPlugin = (
         return createDecorations(state);
       },
       transformPasted: (slice: Slice, view: EditorView) => {
+        if (!options.pasteLink) {
+          return slice;
+        }
         const id = {};
         const { tr } = view.state;
         const textContent = slice.content.firstChild?.textContent;

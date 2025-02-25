@@ -9,6 +9,7 @@ import { previewPluginKey, PreviewPluginState, IDefaultOptions } from "./types";
 
 export const defaultOptions: IDefaultOptions = {
   openLinkOnClick: true,
+  pasteLink: false,
 };
 
 export const createDecorationsYjs = (state: EditorState) => {
