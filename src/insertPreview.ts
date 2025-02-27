@@ -1,11 +1,17 @@
 import { EditorView } from "prosemirror-view";
+import { previewPluginKey } from "./types";
 
 export const insertPreview = (
   view: EditorView,
   url: string,
   pos: number,
+  id: object,
   callback: (url: string) => Promise<any>
 ) => {
+  if (!id) {
+    return;
+  }
+
   callback(url).then((data) => {
     const { title, description, images } = data;
     if (!images?.[0]) {
@@ -26,7 +32,9 @@ export const insertPreview = (
       return;
     }
     view.dispatch(
-      view.state.tr.replaceWith(pos, pos + url.length, previewNode)
+      view.state.tr
+        .replaceWith(pos, pos + url.length, previewNode)
+        .setMeta(previewPluginKey, { type: "remove", id })
     );
   });
 };
