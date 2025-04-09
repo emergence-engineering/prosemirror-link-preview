@@ -15,8 +15,14 @@ export const insertPreview = (
   callback(url).then((data) => {
     const { title, description, images } = data;
     if (!images?.[0]) {
-      const node = view.state.schema.text(url);
-      view.dispatch(view.state.tr.replaceSelectionWith(node));
+      const textNode = view.state.schema.text(url);
+      const nodeWithMark = textNode.mark([
+        view.state.schema.marks.link.create({ href: url }),
+      ]);
+      view.dispatch(view.state.tr.replaceSelectionWith(nodeWithMark));
+      view.dispatch(
+        view.state.tr.setMeta(previewPluginKey, { type: "remove", id })
+      );
       return;
     }
     const attrs = {

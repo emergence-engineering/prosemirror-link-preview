@@ -53,40 +53,47 @@ export const previewPlugin = (
         }
 
         if (textContent && origin) {
-          callback(textContent).then(
-            (data) => {
-              const { title, description, images } = data;
-              if (!images?.[0]) {
-                const node = view.state.schema.text(textContent);
-                view.dispatch(view.state.tr.replaceSelectionWith(node));
-                return;
-              }
-              const attrs = {
-                title,
-                description,
-                src: images[0],
-                alt: title,
-                url: textContent,
-              };
-              const previewNode = view.state.schema.nodes.preview.create(attrs);
+          callback(textContent)
+            .then(
+              (data) => {
+                const { title, description, images } = data;
+                if (!images?.[0]) {
+                  const node = view.state.schema.text(textContent);
+                  view.dispatch(view.state.tr.replaceSelectionWith(node));
+                  return;
+                }
+                const attrs = {
+                  title,
+                  description,
+                  src: images[0],
+                  alt: title,
+                  url: textContent,
+                };
+                const previewNode =
+                  view.state.schema.nodes.preview.create(attrs);
 
-              const pos = findPlaceholder(view.state, id);
-              if (!pos) {
-                return;
+                const pos = findPlaceholder(view.state, id);
+                if (!pos) {
+                  return;
+                }
+                view.dispatch(
+                  view.state.tr
+                    .replaceWith(pos, pos, previewNode)
+                    .setMeta(previewPluginKey, { type: "remove", id })
+                );
+              },
+              () => {
+                // On failure, just clean up the placeholder
+                view.dispatch(
+                  tr.setMeta(previewPluginKey, { type: "remove", id })
+                );
               }
-              view.dispatch(
-                view.state.tr
-                  .replaceWith(pos, pos, previewNode)
-                  .setMeta(previewPluginKey, { type: "remove", id })
-              );
-            },
-            () => {
-              // On failure, just clean up the placeholder
+            )
+            .catch((e) => {
               view.dispatch(
                 tr.setMeta(previewPluginKey, { type: "remove", id })
               );
-            }
-          );
+            });
 
           const emptyFragment = Fragment.empty;
           const emptySlice = new Slice(emptyFragment, 0, 0);
