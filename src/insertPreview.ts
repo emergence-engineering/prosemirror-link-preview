@@ -1,6 +1,6 @@
 import { EditorView } from "prosemirror-view";
-import { previewPluginKey } from "./types";
 import { EditorState } from "prosemirror-state";
+import { previewPluginKey } from "./types";
 
 export const insertPreview = (
   view: EditorView,
