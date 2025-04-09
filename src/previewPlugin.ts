@@ -89,7 +89,7 @@ export const previewPlugin = (
                 );
               }
             )
-            .catch((e) => {
+            .catch(() => {
               view.dispatch(
                 tr.setMeta(previewPluginKey, { type: "remove", id })
               );
