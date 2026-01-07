@@ -1,4 +1,4 @@
-import { EditorState, Plugin, Transaction } from "prosemirror-state";
+import { EditorState, Plugin, PluginKey, Transaction } from "prosemirror-state";
 import { Fragment, Slice } from "prosemirror-model";
 import { DecorationSet, EditorView } from "prosemirror-view";
 import { previewNodeView } from "./previewNodeView";
@@ -11,10 +11,19 @@ export const previewPlugin = (
     tr: Transaction,
     value: PreviewPluginState,
     oldState: EditorState,
-    newState: EditorState
+    newState: EditorState,
+    customYSyncPluginKey?: PluginKey
   ) => PreviewPluginState,
-  createDecorations: (state: EditorState) => DecorationSet,
-  findPlaceholder: (state: EditorState, id: object) => number | null,
+  createDecorations: (
+    state: EditorState,
+    customYSyncPluginKey?: PluginKey
+  ) => DecorationSet,
+  findPlaceholder: (
+    state: EditorState,
+    id: object,
+    customYSyncPluginKey?: PluginKey
+  ) => number | null,
+  customYSyncPluginKey?: PluginKey,
   options = defaultOptions
 ) =>
   new Plugin<PreviewPluginState>({
@@ -23,11 +32,13 @@ export const previewPlugin = (
       init() {
         return [];
       },
-      apply,
+      apply(tr, value, oldState, newState) {
+        return apply(tr, value, oldState, newState, customYSyncPluginKey);
+      },
     },
     props: {
       decorations: (state: EditorState) => {
-        return createDecorations(state);
+        return createDecorations(state, customYSyncPluginKey);
       },
       transformPasted: (slice: Slice, view: EditorView) => {
         if (!options.pasteLink) {
@@ -72,7 +83,11 @@ export const previewPlugin = (
                 const previewNode =
                   view.state.schema.nodes.preview.create(attrs);
 
-                const pos = findPlaceholder(view.state, id);
+                const pos = findPlaceholder(
+                  view.state,
+                  id,
+                  customYSyncPluginKey
+                );
                 if (!pos) {
                   return;
                 }

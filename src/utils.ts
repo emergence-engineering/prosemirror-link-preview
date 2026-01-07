@@ -1,9 +1,9 @@
-import { EditorState, Transaction } from "prosemirror-state";
+import { EditorState, Transaction, PluginKey } from "prosemirror-state";
 import { Decoration, DecorationSet } from "prosemirror-view";
 import {
   absolutePositionToRelativePosition,
   relativePositionToAbsolutePosition,
-  ySyncPluginKey,
+  ySyncPluginKey as defaultYSyncPluginKey,
 } from "y-prosemirror";
 import { previewPluginKey, PreviewPluginState, IDefaultOptions } from "./types";
 
@@ -12,10 +12,14 @@ export const defaultOptions: IDefaultOptions = {
   pasteLink: false,
 };
 
-export const createDecorationsYjs = (state: EditorState) => {
+export const createDecorationsYjs = (
+  state: EditorState,
+  customYSyncPluginKey?: PluginKey
+) => {
   const updatedState = previewPluginKey.getState(state);
   if (!updatedState) return DecorationSet.empty;
-  const YState = ySyncPluginKey.getState(state);
+  const key = customYSyncPluginKey || defaultYSyncPluginKey;
+  const YState = key.getState(state);
   const decors = updatedState.map((i) => {
     const pos = relativePositionToAbsolutePosition(
       YState.doc,
@@ -61,11 +65,13 @@ export const applyYjs = (
   tr: Transaction,
   value: PreviewPluginState,
   oldState: EditorState,
-  newState: EditorState
+  newState: EditorState,
+  customYSyncPluginKey?: PluginKey
 ) => {
   const action = tr.getMeta(previewPluginKey);
   if (action && action.type === "add") {
-    const YState = ySyncPluginKey.getState(newState);
+    const key = customYSyncPluginKey || defaultYSyncPluginKey;
+    const YState = key.getState(newState);
     const relPos = absolutePositionToRelativePosition(
       action.pos,
       YState.type,
@@ -115,12 +121,17 @@ export const apply = (tr: Transaction, value: PreviewPluginState) => {
   return mappedValue;
 };
 
-export const findPlaceholderYjs = (state: EditorState, id: any) => {
+export const findPlaceholderYjs = (
+  state: EditorState,
+  id: any,
+  customYSyncPluginKey?: PluginKey
+) => {
   const decos = previewPluginKey.getState(state);
   if (!decos) {
     return null;
   }
-  const ystate = ySyncPluginKey.getState(state);
+  const key = customYSyncPluginKey || defaultYSyncPluginKey;
+  const ystate = key.getState(state);
   const found = decos.find((spec) => spec.id === id);
   if (!found?.pos) {
     return null;
