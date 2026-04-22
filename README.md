@@ -1,5 +1,12 @@
 # prosemirror-link-preview
 
+# Archive
+
+This repository got archived as the packages inside got migrated to a new monorepo:
+https://github.com/emergence-engineering/emergence-tools
+
+#
+
 ![made by Emergence Engineering](https://emergence-engineering.com/ee-logo.svg)
 
 
